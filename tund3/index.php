@@ -5,6 +5,10 @@
   $dateToday = date("d.m.Y");
   $weekdayNow = date("N");
   $weekdayNamesET = ["esmaspäev", "teisipäev", "kolmapäev", "neljapäev", "reede", "laupäev", "pühapäev"];
+  $monthNamesET = ["jaanuar", "veebruar", "märts", "aprill", "mai", "juuni", "juuli", "august", "september", "oktoober", "november", "detsember"];
+  $monthNow = date("m");
+  $dayOfMonthNow = date("j");
+  $yearNow = date ("Y");
   //echo $weekdayNamesET[1];
   //var_dump($weekdayNamesET);
   $hourNow = date("G");
@@ -45,7 +49,7 @@
   <p>Tundides tehtu: <a href="photo.php">photo.php</a><p>
   <?php
     //echo "<p>Tänane kuuupäev on " .$dateToday .".</p> \n";
-	echo "<p> Täna on " .$weekdayNamesET[$weekdayNow - 1] .", " .$dateToday .".</p> \n";
+	echo "<p> Täna on " .$weekdayNamesET[$weekdayNow - 1] .", " .$dayOfMonthNow .". " .$monthNamesET[$monthNow - 1] ." " .$yearNow .".</p> \n";
 	echo "<p>Lehe avamise hetkel oli kell " .date("H:i:s") .". Käes oli " .$partOfDay .".</p> \n";
 	echo "<p>Ühest kümneni on php suht " . $picNum . " raske<p>\n";
   ?>
