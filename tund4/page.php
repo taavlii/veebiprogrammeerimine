@@ -39,7 +39,8 @@
 	  echo $firstName;
 	  echo " ";
 	  echo $lastName;
-	?>, õppetöö</title>
+	?>, õppetöö
+	</title>
 </head>
 <body>
   <h1>
