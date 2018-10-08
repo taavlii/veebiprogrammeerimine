@@ -54,10 +54,10 @@
 		$emailError = "Palun sisesta email";
 	}
 	
-	if(isset($_POST["password"]) and !empty($_POST["password"])){
+	if(isset($_POST["password"]) and isset($_POST["password2"]) and $_POST["password"] == $_POST["password2"] and !empty($_POST["password"]) and (strlen($_POST["password"]) >= 8)){
 	  $password = test_input($_POST["password"]);	
 	} else {
-		$passwordError = "Palun sisesta salasõna";
+		$passwordError = "Palun sisesta salasõna, vähemalt 8 tähemärki, kontrolli, et salasõnad kattuksid";
 	}
 	
   //kui päev ja kuu ja aasta on olemas, kontrollitud
@@ -158,6 +158,11 @@
 	  <label>Salasõna (min 8 märki):</label><br>
 	  <input type="password" name ="password" ><span><?php echo  $passwordError; ?></span>
 	  <br>
+
+		<label>Salasõna uuesti:</label><br>
+		<input type="password" name ="password2" >
+		<br>
+
 	  <input type="submit" name="submitUserData" value="Loo kasutaja">
     </form>
 	<hr>
