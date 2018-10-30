@@ -9,10 +9,15 @@
 
  
  function updateuser($userid, $description, $bgcolor, $txtcolor) {
+	$profile = readuser($userid);
 	$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-	$stmt = $mysqli->prepare("INSERT INTO vpuserprofiles (userid, description, bgcolor, txtcolor) VALUES (?,?,?,?)");
-	echo $mysqli->error;
-	$stmt->bind_param("isss", $userid, $description, $bgcolor, $txtcolor);
+	if ($profile['exists']) {
+		$stmt = $mysqli->prepare("UPDATE vpuserprofiles SET description = ?, bgcolor = ?, txtcolor = ? WHERE userid = ?");
+		$stmt->bind_param("sssi", $description, $bgcolor, $txtcolor, $userid);
+	} else {
+		$stmt = $mysqli->prepare("INSERT INTO vpuserprofiles (userid, description, bgcolor, txtcolor) VALUES (?,?,?,?)");
+		$stmt->bind_param("isss", $userid, $description, $bgcolor, $txtcolor);
+	}
 	$stmt->execute();
 	$stmt->close();
 	$mysqli->close();

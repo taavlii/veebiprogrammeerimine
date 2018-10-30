@@ -1,5 +1,5 @@
 <?php
-  require("functions.php");
+  require_once("functions.php");
   
   //kui pole sisse loginud, siis logimiselehe
   if(!isset($_SESSION["userId"])){

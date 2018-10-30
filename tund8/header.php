@@ -1,7 +1,24 @@
+<?php
+
+require_once ("functions.php");
+
+$profile = readuser($_SESSION["userId"]);
+
+$mydescription = $profile["description"];
+$mybgcolor = $profile["bgcolor"];
+$mytxtcolor = $profile["txtcolor"];
+
+?>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
+    <style>
+	  <?php
+        echo "body{background-color: " .$mybgcolor ."; \n";
+		    echo "color: " .$mytxtcolor ."} \n";
+	  ?>
+	</style>
 	<title><?php echo $pageTitle; ?></title>
   </head>
   <body>

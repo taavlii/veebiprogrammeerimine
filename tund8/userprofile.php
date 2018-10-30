@@ -1,36 +1,28 @@
 <?php
     require ("functions.php");
-    $profile = readuser($_SESSION["userId"]);
+    
   
     if(isset($_POST["txtcolor"]) and isset($_POST["description"]) and isset($_POST["bgcolor"])){
         $mydescription = $_POST["description"];
         $mybgcolor = $_POST["bgcolor"];
         $mytxtcolor = $_POST["txtcolor"];
+        updateuser($_SESSION["userId"], $mydescription, $mybgcolor, $mytxtcolor);
      } else {
          $mydescription = "lisa bio";
          $mybgcolor = "#FFFFFF";
          $mytxtcolor = "#000000";
      }
-    
+     $pageTitle="Muuda profiili";
+     require("header.php");
 ?>
 
-<!DOCTYPE html>
-<html>
 
 
-<head>
-    <meta charset="utf-8">
-    <style>
-	  <?php
-        echo "body{background-color: " .$mybgcolor ."; \n";
-		echo "color: " .$mytxtcolor ."} \n";
-	  ?>
-	</style>
-    <title>profiili muutmine</title>
-</head>
 
-<body>
-    <h1>MuUdA Pr0Fi1Li</h1>
+
+
+
+    
 
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <label>Kirjuta kes sa oled selline</label><br>
