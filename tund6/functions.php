@@ -7,7 +7,35 @@
   //võtan kasutusele sessiooni
   session_start();
 
-
+  
+  function users(){
+  $notice = "<ul>";
+  $mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+  $stmt = $mysqli->prepare("SELECT  firstname, lastname, email FROM vpusers WHERE id !=?");
+  echo $mysqli->error;
+  $stmt->bind_param("i",$_SESSION["userId"]);
+  $stmt->bind_result($firstname, $lastname, $email);
+  $stmt->execute();
+   while($stmt->fetch()){
+		  $notice .= "<li>" .$firstname . " " .$lastname . " " .$email ."</li> \n";
+  }
+  $stmt->close();
+  $mysqli->close();
+  return $notice;
+  }
+  
+  function validatemsg($messageId, $accepted, $userid) {
+  $notice = "Tehtud";
+  $mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+  $stmt = $mysqli->prepare("UPDATE vpamsg SET acceptedby=?, accepted=?, accepttime=now() WHERE id=?");
+  echo $mysqli->error;
+  $stmt->bind_param("iii", $userid, $accepted, $messageId);
+  $stmt->execute();
+  $stmt->close();
+  $mysqli->close();
+  return $notice;
+  }
+  
   //loen sõnumi valideerimiseks
   function readmsgforvalidation($editId){
 	$notice = "";
@@ -22,6 +50,21 @@
 	$stmt->close();
 	$mysqli->close();
 	return $notice;
+  }
+  
+  function allvalidmessages(){
+	  $msgHTML = "";
+	  $mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]); 
+	  $stmt = $mysqli->prepare("SELECT msg FROM vpamsg WHERE accepted=1");
+	  echo $mysqli->error;
+	  $stmt->bind_result($msg);
+	  $stmt->execute();
+	  while($stmt->fetch()){
+		  $msgHTML .= "<p>" .$msg ."</p> \n";
+  }
+	  $stmt->close();
+	  $mysqli->close();
+	  return $msgHTML;
   }
 
    //valideerimata sõnumite lugemine
