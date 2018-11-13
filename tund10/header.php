@@ -7,6 +7,11 @@ $profile = readuser($_SESSION["userId"]);
 $mydescription = $profile["description"];
 $mybgcolor = $profile["bgcolor"];
 $mytxtcolor = $profile["txtcolor"];
+if ($profile["userpic"] == "") {
+  $userpic = "../vp_picfiles/vp_user_generic.png";
+} else {
+  $userpic = "../vp_userpics/" . $profile["userpic"];
+}
 
 ?>
 <!DOCTYPE html>

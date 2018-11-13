@@ -43,15 +43,18 @@
   }
 
  
- function updateuser($userid, $description, $bgcolor, $txtcolor) {
+ function updateuser($userid, $description, $bgcolor, $txtcolor, $userPic) {
 	$profile = readuser($userid);
 	$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 	if ($profile['exists']) {
-		$stmt = $mysqli->prepare("UPDATE vpuserprofiles SET description = ?, bgcolor = ?, txtcolor = ? WHERE userid = ?");
-		$stmt->bind_param("sssi", $description, $bgcolor, $txtcolor, $userid);
+		if ($userPic == "") {
+			$userPic = $profile['userpic'];
+		}
+		$stmt = $mysqli->prepare("UPDATE vpuserprofiles SET description = ?, bgcolor = ?, txtcolor = ?, userpic = ? WHERE userid = ?");
+		$stmt->bind_param("ssssi", $description, $bgcolor, $txtcolor, $userPic, $userid);
 	} else {
-		$stmt = $mysqli->prepare("INSERT INTO vpuserprofiles (userid, description, bgcolor, txtcolor) VALUES (?,?,?,?)");
-		$stmt->bind_param("isss", $userid, $description, $bgcolor, $txtcolor);
+		$stmt = $mysqli->prepare("INSERT INTO vpuserprofiles (userid, description, bgcolor, txtcolor, userpic) VALUES (?,?,?,?,?)");
+		$stmt->bind_param("issss", $userid, $description, $bgcolor, $txtcolor, $userPic);
 	}
 	$stmt->execute();
 	$stmt->close();
@@ -65,21 +68,23 @@
  
   function readuser($userid){
 	$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-	$stmt = $mysqli->prepare("SELECT id, userid, description, bgcolor, txtcolor FROM vpuserprofiles WHERE userid=?");
+	$stmt = $mysqli->prepare("SELECT id, userid, description, bgcolor, txtcolor, userpic FROM vpuserprofiles WHERE userid=?");
 	echo $mysqli->error;
 	$stmt->bind_param("i", $userid);
-	$stmt->bind_result($idFromDb, $useridFromDb, $descriptionFromDb, $bgcolorFromDb, $txtcolorFromDb);
+	$stmt->bind_result($idFromDb, $useridFromDb, $descriptionFromDb, $bgcolorFromDb, $txtcolorFromDb, $userPicFromDb);
 	$stmt->execute();
 	if($stmt->fetch()){
 		$data = [];
 		$data["description"] = $descriptionFromDb;
 		$data["bgcolor"] = $bgcolorFromDb;
 		$data["txtcolor"] = $txtcolorFromDb;
+		$data["userpic"] = $userPicFromDb;
 		$data["exists"] = true;
 	}	else {
 		$data["description"] = "Kes sa selline oled";
 		$data["bgcolor"] = "#FFFFFF";
 		$data["txtcolor"] = "#000000";
+		$data["userpic"] = "";
 		$data["exists"] = false;
 	}
 	$stmt->close();
