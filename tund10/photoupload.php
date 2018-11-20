@@ -24,7 +24,9 @@
  
   
   //piltide laadimine
-  $target_dir = "../vp_pic_uploads/";
+  $target_dir = $picDir;
+  $thumb_dir= $thumbDir;
+  $thumbSize = 100;
   
   $uploadOk = 1;
   
@@ -52,20 +54,27 @@
  
 
   // Check if file already exists
-  if (file_exists($target_file)) {
-    echo "Ei, selline on olemas juba";
-    $uploadOk = 0;
-  }
+  //if (file_exists($target_file)) {
+    //echo "Ei, selline on olemas juba";
+    //$uploadOk = 0;
+  //}
   // Check file size
-  if ($_FILES["fileToUpload"]["size"] > 2500000) {
-    echo "Liiga suur pilt";
-    $uploadOk = 0;
+  if(isset($_POST["submitImage"])) {
+    if(!empty($_FILES["fileToUpload"]["name"])){
+      if ($_FILES["fileToUpload"]["size"] > 2500000) {
+        echo "Liiga suur pilt";
+        $uploadOk = 0;
+      }
+    }
   }
-  // Allow certain file formats
+
+  
   if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
-    echo "Peab olema JPG, JPEG, PNG või GIF";
-    $uploadOk = 0;
-  }
+        echo "Peab olema JPG, JPEG, PNG või GIF";
+        $uploadOk = 0;
+      }
+    
+  
   // Check if $uploadOk is set to 0 by an error
   if ($uploadOk == 0) {
     echo "Ei saa seda üles laadida";
@@ -73,6 +82,8 @@
   } else 
   {
     $myPhoto = new Photoupload($_FILES["fileToUpload"]["tmp_name"], $imageFileType);
+    var_dump($myPhoto->readExif($_FILES["fileToUpload"]["tmp_name"]));
+
     $myPhoto->changePhotoSize(600,400);
     $myPhoto->addWatermark();
     $myPhoto->addTextToImage();
