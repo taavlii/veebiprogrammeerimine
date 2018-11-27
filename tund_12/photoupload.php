@@ -90,7 +90,8 @@
 	}//kas on submit nuppu vajutatud
   
   //lehe päise laadimise osa
-  $pageTitle = "Fotode üleslaadimine";
+	$pageTitle = "Fotode üleslaadimine";
+	$scripts = '<script type="text/javascript" src="javascript/checkFileSize.js" defer></script>' ."\n";
   require("header.php");
 ?>
 
@@ -113,7 +114,8 @@
 	  <input type="radio" name="privacy" value="2"><label>Sisseloginud kasutajatele</label>&nbsp;
 	  <input type="radio" name="privacy" value="3" checked><label>Isiklik</label>
       <br>
-	  <input type="submit" value="Lae pilt üles" name="submitPic"><span><?php echo $notice; ?></span>
+	  <input id="submitPic" type="submit" value="Lae pilt üles" name="submitPic">
+		<span></span>
     </form>
   </body>
 </html>

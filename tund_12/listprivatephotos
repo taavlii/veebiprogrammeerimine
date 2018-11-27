@@ -13,6 +13,7 @@
 	exit();
   }
   
+ 
   $messages = listprivatephotos(3);
   
   $pageTitle = "Privaatsed pildid";

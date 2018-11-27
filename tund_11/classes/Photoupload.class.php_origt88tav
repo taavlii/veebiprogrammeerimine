@@ -150,33 +150,37 @@
       imagecopyresampled($myThumbnail, $this->myTempImage, 0, 0, $cutX, $cutY, $size, $size, $cutSize, $cutSize);
       //salvestan
       $targetFile = $directory .$this->fileName;
-	  $this->savePhoto($targetFile, $myThumbnail);
+      if($this->imageFileType == "jpg" or $this->imageFileType == "jpeg"){
+		imagejpeg($myThumbnail, $targetFile, 90);
+	  }
+	  if($this->imageFileType == "png"){
+		imagepng($myThumbnail, $targetFile, 6);
+	  }
+	  if($this->imageFileType == "gif"){
+		imagegif($myThumbnail, $targetFile);
+	  }
       
     }
 	
-	public function saveTempPhoto($targetFile) {
-		return $this->savePhoto($targetFile, $this->myTempImage);
-	}
-	
-	public function savePhoto($targetFile,$image){
+	public function savePhoto($targetFile){
 	  $notice = "";
 	  //muudetud suurusega pilt kirjutatakse pildifailiks
 	  if($this->imageFileType == "jpg" or $this->imageFileType == "jpeg"){
-		if(imagejpeg($image, $targetFile, 90)){
+		if(imagejpeg($this->myImage, $targetFile, 90)){
           $notice = 1;
 	    } else {
 		  $notice = 0;
 	    }
 	  }
 	  if($this->imageFileType == "png"){
-		if(imagepng($image, $targetFile, 6)){
+		if(imagepng($this->myImage, $targetFile, 6)){
           $notice = 1;
 	    } else {
 		  $notice = 0;
 	    }
 	  }
 	  if($this->imageFileType == "gif"){
-		if(imagegif($image, $targetFile)){
+		if(imagegif($this->myImage, $targetFile)){
           $notice = 1;
 		} else {
 		  $notice = 0;

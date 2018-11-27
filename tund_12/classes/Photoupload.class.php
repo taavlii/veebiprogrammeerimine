@@ -43,7 +43,9 @@
       @$exif = exif_read_data($this->tempName, "ANY_TAG", 0, true);
       //var_dump($exif);
       //echo $exif["DateTimeOriginal"];
-      $this->photoDate = $exif["DateTimeOriginal"];
+			if(isset($exif["DateTimeOriginal"])){
+				$this->photoDate = $exif["DateTimeOriginal"];
+			}
     }
 	
 	public function makeFileName($prefix){

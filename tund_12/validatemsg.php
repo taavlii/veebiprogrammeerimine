@@ -13,9 +13,9 @@
 	exit();
   }
   
-  $messages = listprivatephotos(3);
+  $messages = readallunvalidatedmessages();
   
-  $pageTitle = "Privaatsed pildid";
+  $pageTitle = "Valideerimata sõnumid";
   require("header.php");
 ?>
 
@@ -26,7 +26,7 @@
 	<li><a href="main.php">Tagasi</a> pealehele!</li>
   </ul>
   <hr>
-  <h2>Minu privaatsed pildid</h2>
+  <h2>Valideerimata sõnumid</h2>
   <?php
     echo $messages;
   ?>
